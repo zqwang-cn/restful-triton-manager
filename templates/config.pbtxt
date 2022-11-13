@@ -1,0 +1,26 @@
+name: "{{ model.name }}"
+{%- if model.platform %}
+platform: "{{ model.platform }}"
+{%- endif %}
+backend: "{{ model.backend }}"
+max_batch_size: {{ model.max_batch_size }}
+
+input [
+{%- for item in model.inputs.all() %}
+  {
+    name: "{{ item.name }}"
+    data_type: {{ item.data_type }}
+    dims: {{ item.dims }}
+  }{% if not loop.last %},{% endif %}
+{%- endfor %}
+]
+
+output [
+{%- for item in model.outputs.all() %}
+  {
+    name: "{{ item.name }}"
+    data_type: {{ item.data_type }}
+    dims: {{ item.dims }}
+  }{% if not loop.last %},{% endif %}
+{%- endfor %}
+]
